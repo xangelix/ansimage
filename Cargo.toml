@@ -3,6 +3,14 @@ name = "ansimage"
 version = "0.1.0"
 edition = "2024"
 description = "Converting images into colorful terminal ANSI art."
+keywords = ["image", "terminal", "ansi", "art", "ascii-art"]
+categories = [
+    "command-line-utilities",
+    "multimedia::images",
+    "visualization",
+    "graphics",
+    "value-formatting",
+]
 authors = ["Cody Wyatt Neiman (xangelix) <neiman@cody.to>"]
 license = "MIT"
 documentation = "https://docs.rs/ansimage"
