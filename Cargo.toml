@@ -1,0 +1,23 @@
+[package]
+name = "ansimage"
+version = "0.1.0"
+edition = "2024"
+description = "Converting images into colorful terminal ANSI art."
+license = "MIT"
+documentation = "https://docs.rs/ansimage"
+repository = "https://github.com/xangelix/ansimage"
+
+[dependencies]
+clap = { version = "4.5.48", features = ["derive"] }
+color-eyre = "0.6.5"
+fast_image_resize = "5.3.0"
+image = "0.25.8"
+imagequant = "4.4.1"
+owo-colors = "4.2.3"
+palette = { version = "0.7.6", features = ["serializing"] }
+rayon = "1.11.0"
+thiserror = "2.0.17"
+
+[[bin]]
+name = "ansimage"
+path = "src/bin/main.rs"
