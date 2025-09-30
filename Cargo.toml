@@ -3,6 +3,7 @@ name = "ansimage"
 version = "0.1.0"
 edition = "2024"
 description = "Converting images into colorful terminal ANSI art."
+authors = ["Cody Wyatt Neiman (xangelix) <neiman@cody.to>"]
 license = "MIT"
 documentation = "https://docs.rs/ansimage"
 repository = "https://github.com/xangelix/ansimage"
