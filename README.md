@@ -1,5 +1,7 @@
 # ansimage
 
+![Example Image: Me Ascii](https://media.githubusercontent.com/media/xangelix/ansimage/main/examples/me-ascii.png)
+
 **`ansimage` is a versatile Rust library and command-line tool for converting images into colorful terminal ANSI art.**
 
 It offers a high degree of control over character sets, color palettes, and output size, using perceptually uniform color calculations to generate high-quality results.
@@ -128,10 +130,96 @@ let custom_settings = Settings {
 // Use this custom_settings object with the `convert` function.
 ```
 
+## Examples
+
+> me
+
+![Example Image: Me](https://media.githubusercontent.com/media/xangelix/ansimage/main/examples/me.png)
+
+> me ascii
+
+![Example Image: Me Ascii](https://media.githubusercontent.com/media/xangelix/ansimage/main/examples/me-ascii.png)
+
+> me fullblock
+
+![Example Image: Me Fullblock](https://media.githubusercontent.com/media/xangelix/ansimage/main/examples/me-fullblock.png)
+
+> me quarterblock
+
+![Example Image: Me Quarterblock](https://media.githubusercontent.com/media/xangelix/ansimage/main/examples/me-quarterblock.png)
+
+> me quarterblock sweetie16
+
+![Example Image: Me Quarterblock Sweetie16](https://media.githubusercontent.com/media/xangelix/ansimage/main/examples/me-quarterblock-sweetie16.png)
+
+> me quarterblock horrorbluedark
+
+![Example Image: Me Quarterblock Horrorbluedark](https://media.githubusercontent.com/media/xangelix/ansimage/main/examples/me-quarterblock-horrorbluedark.png)
+
+> blackhole
+
+![Example Image: Blackhole](https://media.githubusercontent.com/media/xangelix/ansimage/main/examples/blackhole.jpg)
+
+> blackhole ascii
+
+![Example Image: Blackhole Ascii](https://media.githubusercontent.com/media/xangelix/ansimage/main/examples/blackhole-ascii.png)
+
+> blackhole quarterblock
+
+![Example Image: Blackhole Quarterblock](https://media.githubusercontent.com/media/xangelix/ansimage/main/examples/blackhole-quarterblock.png)
+
+> blackhole quarterblock sweetie16
+
+![Example Image: Blackhole Quarterblock Sweetie16](https://media.githubusercontent.com/media/xangelix/ansimage/main/examples/blackhole-quarterblock-sweetie16.png)
+
+> blackhole quarterblock horrorbluedark
+
+![Example Image: Blackhole Quarterblock Horrorbluedark](https://media.githubusercontent.com/media/xangelix/ansimage/main/examples/blackhole-quarterblock-horrorbluedark.png)
+
+> popsicle
+
+![Example Image: Popsicle](https://media.githubusercontent.com/media/xangelix/ansimage/main/examples/popsicle.jpg)
+
+> popsicle ascii
+
+![Example Image: Popsicle Ascii](https://media.githubusercontent.com/media/xangelix/ansimage/main/examples/popsicle-ascii.png)
+
+> popsicle quarterblock
+
+![Example Image: Popsicle Quarterblock](https://media.githubusercontent.com/media/xangelix/ansimage/main/examples/popsicle-quarterblock.png)
+
+> popsicle quarterblock sweetie16
+
+![Example Image: Popsicle Quarterblock Sweetie16](https://media.githubusercontent.com/media/xangelix/ansimage/main/examples/popsicle-quarterblock-sweetie16.png)
+
+> popsicle quarterblock horrorbluedark
+
+![Example Image: Popsicle Quarterblock Horrorbluedark](https://media.githubusercontent.com/media/xangelix/ansimage/main/examples/popsicle-quarterblock-horrorbluedark.png)
+
+> redpanda
+
+![Example Image: Redpanda](https://media.githubusercontent.com/media/xangelix/ansimage/main/examples/redpanda.jpg)
+
+> redpanda ascii
+
+![Example Image: Redpanda Ascii](https://media.githubusercontent.com/media/xangelix/ansimage/main/examples/redpanda-ascii.png)
+
+> redpanda quarterblock
+
+![Example Image: Redpanda Quarterblock](https://media.githubusercontent.com/media/xangelix/ansimage/main/examples/redpanda-quarterblock.png)
+
+> redpanda quarterblock sweetie16
+
+![Example Image: Redpanda Quarterblock Sweetie16](https://media.githubusercontent.com/media/xangelix/ansimage/main/examples/redpanda-quarterblock-sweetie16.png)
+
+> redpanda quarterblock horrorbluedark
+
+![Example Image: Redpanda Quarterblock Horrorbluedark](https://media.githubusercontent.com/media/xangelix/ansimage/main/examples/redpanda-quarterblock-horrorbluedark.png)
 ## Todo
 
 - Option for color text on constant background (oppposite of current)
 - Allow basic image manipulation in bin, e.g. contrast, saturation, brightness
+- Manually override fg text
 
 ## License
 
