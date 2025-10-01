@@ -128,6 +128,11 @@ let custom_settings = Settings {
 // Use this custom_settings object with the `convert` function.
 ```
 
+## Todo
+
+- Option for color text on constant background (oppposite of current)
+- Allow basic image manipulation in bin, e.g. contrast, saturation, brightness
+
 ## License
 
 This project is licensed under the **MIT License**. See the [LICENSE](https://www.google.com/search?q=LICENSE) file for details.
