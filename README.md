@@ -16,8 +16,6 @@ It offers a high degree of control over character sets, color palettes, and outp
   * **Flexible Sizing**: Easily fit the output to specific dimensions while preserving aspect ratio, or scale to an exact character width and height.
   * **Simple CLI and Library API**: Use it as a quick command-line tool or integrate it directly into your Rust projects.
 
------
-
 ## Installation
 
 ### As a Command-Line Tool
@@ -36,8 +34,6 @@ Add `ansimage` as a dependency in your `Cargo.toml` file:
 [dependencies]
 ansimage = "0.1.0" # Replace with the latest version
 ```
-
------
 
 ## Usage
 
@@ -94,8 +90,6 @@ fn main() -> Result<()> {
 }
 ```
 
------
-
 ## Configuration
 
 You can customize the output by modifying the `Settings` struct.
@@ -133,8 +127,6 @@ let custom_settings = Settings {
 
 // Use this custom_settings object with the `convert` function.
 ```
-
------
 
 ## License
 
