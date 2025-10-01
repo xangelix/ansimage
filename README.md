@@ -4,6 +4,9 @@
 
 It offers a high degree of control over character sets, color palettes, and output size, using perceptually uniform color calculations to generate high-quality results.
 
+[![Crates.io](https://img.shields.io/crates/v/ansimage.svg)](https://crates.io/crates/ansimage)
+[![Docs.rs](https://docs.rs/ansimage/badge.svg)](https://docs.rs/ansimage)
+
 ## Features
 
   * **Multiple Character Modes**: Render images using standard ASCII brightness ramps, high-fidelity Unicode block characters, or your own custom character sets.
