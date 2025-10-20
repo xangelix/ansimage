@@ -218,7 +218,7 @@ let custom_settings = Settings {
 
 ## Todo
 
-- Option for color text on constant background (oppposite of current)
+- Option for color text on constant background (opposite of current)
 - Allow basic image manipulation in bin, e.g. contrast, saturation, brightness
 - Manually override fg text
 
