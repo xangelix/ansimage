@@ -179,8 +179,9 @@ fn calculate_dimensions(
     char_ratio: f32,
 ) -> (usize, usize) {
     if mode == SizeMode::Exact {
-        return (width, height);
+        return (width.max(1), height.max(1));
     }
+    let char_ratio = char_ratio.max(0.01); // avoid div-by-near-zero
 
     let img_w_f = img_w as f32;
     let img_h_f = img_h as f32;
@@ -190,11 +191,12 @@ fn calculate_dimensions(
     let fit_height = width_f * (img_h_f / img_w_f) * char_ratio;
     let fit_width = (height_f * (img_w_f / img_h_f)) / char_ratio;
 
-    if fit_height > height_f {
+    let (w_calc, h_calc) = if fit_height > height_f {
         (fit_width.round() as usize, height)
     } else {
         (width, fit_height.round() as usize)
-    }
+    };
+    (w_calc.max(1), h_calc.max(1))
 }
 
 /// Reduces the image's color count to a fixed palette using `imagequant`.
