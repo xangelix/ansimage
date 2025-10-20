@@ -22,6 +22,7 @@ use crate::{
 pub type LuvColor = Luv<D65, f32>;
 
 /// Converts an sRGB pixel to the L*u*v* color space.
+#[inline]
 fn pixel_to_luv(p: Rgb<u8>) -> LuvColor {
     // Normalize sRGB u8 components to f32 values between 0.0 and 1.0.
     let srgb = Srgb::new(
@@ -34,6 +35,7 @@ fn pixel_to_luv(p: Rgb<u8>) -> LuvColor {
 }
 
 /// Converts a L*u*v* color back to an RGB representation for terminal styling.
+#[inline]
 fn luv_to_owo_rgb(luv: LuvColor) -> owo_colors::Rgb {
     // Convert back to sRGB.
     let srgb = Srgb::from_color_unclamped(luv);
@@ -265,6 +267,7 @@ fn process_unicode(
 /// Calculates the Euclidean distance between two L*u*v* colors (CIEDE76).
 ///
 /// The formula is: $\sqrt{\Delta L^2 + \Delta u^2 + \Delta v^2}$
+#[inline]
 fn luv_distance(c1: LuvColor, c2: LuvColor) -> f32 {
     let (l1, u1, v1) = c1.into_components();
     let (l2, u2, v2) = c2.into_components();
@@ -329,6 +332,7 @@ fn calculate_block_distance(
 }
 
 /// Linearly interpolates between two colors by a given ratio.
+#[inline]
 fn blend(a: LuvColor, b: LuvColor, ratio: f32) -> LuvColor {
     Luv::new(
         a.l.mul_add(ratio, b.l * (1.0 - ratio)),
@@ -338,6 +342,7 @@ fn blend(a: LuvColor, b: LuvColor, ratio: f32) -> LuvColor {
 }
 
 /// Computes the average color from a slice of L*u*v* colors.
+#[inline]
 fn average_color(colors: &[LuvColor]) -> LuvColor {
     let count = colors.len() as f32;
     if count == 0.0 {
@@ -350,6 +355,7 @@ fn average_color(colors: &[LuvColor]) -> LuvColor {
 }
 
 /// Finds the colors with the highest and lowest lightness (L*) component in a slice.
+#[inline]
 fn find_lightest_darkest(colors: &[LuvColor]) -> (LuvColor, LuvColor) {
     let mut lightest = colors[0];
     let mut darkest = colors[0];
@@ -436,6 +442,7 @@ fn find_closest_pair(
 }
 
 /// Maps a brightness value (0.0 to 1.0) to an index in a character set.
+#[inline]
 fn brightness_to_char_index(brightness: f32, char_set_len: usize) -> usize {
     let len_f = (char_set_len - 1) as f32;
     let index = (brightness * len_f).round() as usize;
