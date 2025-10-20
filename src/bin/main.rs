@@ -21,6 +21,14 @@ struct Cli {
     /// If set, does not print the output to the terminal.
     #[arg(long)]
     quiet: bool,
+
+    /// Output width in characters.
+    #[arg(long)]
+    width: Option<usize>,
+
+    /// Output height in characters.
+    #[arg(long)]
+    height: Option<usize>,
 }
 
 fn main() -> color_eyre::Result<()> {
@@ -28,8 +36,8 @@ fn main() -> color_eyre::Result<()> {
 
     let settings = Settings {
         size: Size {
-            width: 80,
-            height: 80,
+            width: cli.width.unwrap_or(80),
+            height: cli.height.unwrap_or(80),
             ..Default::default()
         },
         characters: Characters {
