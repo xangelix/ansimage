@@ -251,7 +251,7 @@ fn process_unicode(
             let dist = calculate_block_distance(colors, fg, bg, char_candidate);
             (dist, char_candidate, fg, bg)
         })
-        .min_by(|a, b| a.0.partial_cmp(&b.0).unwrap())
+        .min_by(|a, b| a.0.total_cmp(&b.0))
         .map_or((' ', BLACK_LUV, BLACK_LUV), |(_, c, fg, bg)| (c, fg, bg));
 
     let mut style = Style::new().color(luv_to_owo_rgb(best_fg));
@@ -371,7 +371,7 @@ fn find_closest(color: LuvColor, palette: &ColorPalette<LuvColor>) -> LuvColor {
         .min_by(|&&c1, &&c2| {
             let d1 = luv_distance(color, c1);
             let d2 = luv_distance(color, c2);
-            d1.partial_cmp(&d2).unwrap()
+            d1.total_cmp(&d2)
         })
         .copied()
         .unwrap_or(color)
