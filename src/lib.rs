@@ -277,3 +277,24 @@ fn quantize_with_imagequant(
         )
     })
 }
+#[cfg(test)]
+mod tests {
+    use super::calculate_dimensions;
+    use crate::settings::SizeMode;
+
+    #[test]
+    fn dims_never_zero_exact() {
+        assert_eq!(
+            calculate_dimensions(100, 100, 0, 0, SizeMode::Exact, 0.5),
+            (1, 1)
+        );
+    }
+
+    #[test]
+    fn dims_never_zero_fit() {
+        assert_eq!(
+            calculate_dimensions(100, 100, 0, 0, SizeMode::Fit, 0.5),
+            (1, 1)
+        );
+    }
+}
