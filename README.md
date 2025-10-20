@@ -224,4 +224,4 @@ let custom_settings = Settings {
 
 ## License
 
-This project is licensed under the **MIT License**. See the [LICENSE](https://www.google.com/search?q=LICENSE) file for details.
+This project is licensed under the **MIT License**. See the [LICENSE](https://spdx.org/licenses/MIT.html) file for details.
