@@ -4,6 +4,8 @@
 //! selecting the best character to represent them, and determining the appropriate
 //! foreground and background colors according to the user's settings.
 
+use std::fmt::Write as _;
+
 use image::{Rgb, RgbImage};
 use owo_colors::{OwoColorize, Style};
 use palette::{Luv, Srgb, convert::FromColorUnclamped, white_point::D65};
@@ -113,7 +115,7 @@ pub fn process_row(
             )
         };
 
-        row_str.push_str(&character.style(style).to_string());
+        let _ = write!(row_str, "{}", character.style(style));
     }
     row_str
 }
