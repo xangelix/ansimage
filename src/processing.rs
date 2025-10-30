@@ -450,3 +450,16 @@ fn brightness_to_char_index(brightness: f32, char_set_len: usize) -> usize {
     let index = (brightness * len_f).round() as usize;
     index.min(char_set_len - 1)
 }
+
+#[cfg(test)]
+mod tests {
+    use super::brightness_to_char_index;
+
+    #[test]
+    fn brightness_index_bounds() {
+        assert_eq!(brightness_to_char_index(0.0, 10), 0);
+        assert_eq!(brightness_to_char_index(1.0, 10), 9);
+        assert_eq!(brightness_to_char_index(-0.1, 10), 0);
+        assert_eq!(brightness_to_char_index(1.1, 10), 9);
+    }
+}
