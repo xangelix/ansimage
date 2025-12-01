@@ -22,7 +22,6 @@ color-eyre = "0.6.5"
 fast_image_resize = "5.4.0"
 image = "0.25.9"
 imagequant = "4.4.1"
-owo-colors = "4.2.3"
 palette = { version = "0.7.6", features = ["serializing"] }
 rayon = "1.11.0"
 thiserror = "2.0.17"

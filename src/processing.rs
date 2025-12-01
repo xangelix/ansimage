@@ -7,7 +7,6 @@
 use std::fmt::Write as _;
 
 use image::{Rgb, RgbImage};
-use owo_colors::{OwoColorize, Style};
 use palette::{Luv, Srgb, convert::FromColorUnclamped, white_point::D65};
 
 use crate::{
@@ -23,6 +22,9 @@ use crate::{
 /// color matching and difference calculations.
 pub type LuvColor = Luv<D65, f32>;
 
+/// A type alias for RGB colors represented as tuples of u8 components.
+type RGB8 = (u8, u8, u8);
+
 /// Converts an sRGB pixel to the L*u*v* color space.
 #[inline]
 fn pixel_to_luv(p: Rgb<u8>) -> LuvColor {
@@ -36,18 +38,17 @@ fn pixel_to_luv(p: Rgb<u8>) -> LuvColor {
     LuvColor::from_color_unclamped(srgb)
 }
 
-/// Converts a L*u*v* color back to an RGB representation for terminal styling.
+/// Converts a L*u*v* color back to a simple RGB tuple
 #[inline]
-fn luv_to_owo_rgb(luv: LuvColor) -> owo_colors::Rgb {
+fn luv_to_rgb(luv: LuvColor) -> RGB8 {
     // Convert back to sRGB.
     let srgb = Srgb::from_color_unclamped(luv);
     // Denormalize and clamp the f32 components to u8 values (0-255).
-    let (r, g, b) = (
+    (
         (srgb.red * 255.0).round().clamp(0.0, 255.0) as u8,
         (srgb.green * 255.0).round().clamp(0.0, 255.0) as u8,
         (srgb.blue * 255.0).round().clamp(0.0, 255.0) as u8,
-    );
-    owo_colors::Rgb(r, g, b)
+    )
 }
 
 /// Processes a single character row of the output image.
@@ -81,6 +82,10 @@ pub fn process_row(
         )
     };
 
+    // State tracking for compression of ANSI escape sequences.
+    let mut last_fg: Option<RGB8> = None;
+    let mut last_bg: Option<RGB8> = None;
+
     for x_char in 0..width_char {
         let x_px = x_char * 2;
 
@@ -93,8 +98,9 @@ pub fn process_row(
             pixel_to_luv(*img.get_pixel(x_px as u32 + 1, y_px as u32 + 1)),
         ];
 
-        // Dispatch to the appropriate processing function based on character mode.
-        let (character, style) = if let CharacterMode::Unicode(charset) = settings.characters.mode {
+        // Retrieve raw color data (Options)
+        let (character, fg, bg) = if let CharacterMode::Unicode(charset) = settings.characters.mode
+        {
             process_unicode(
                 &colors,
                 charset,
@@ -115,8 +121,40 @@ pub fn process_row(
             )
         };
 
-        let _ = write!(row_str, "{}", character.style(style));
+        // --- Compression ---
+
+        // Write the code if the color changed OR if compression is disabled.
+        let write_fg = fg != last_fg || !settings.advanced.compression;
+        let write_bg = bg != last_bg || !settings.advanced.compression;
+
+        // 1. Handle Foreground Change
+        if write_fg {
+            match fg {
+                // ANSI truecolor foreground: \x1b[38;2;R;G;Bm
+                Some(c) => write!(row_str, "\x1b[38;2;{};{};{}m", c.0, c.1, c.2).unwrap(),
+                // Reset foreground only: \x1b[39m
+                None => write!(row_str, "\x1b[39m").unwrap(),
+            }
+            last_fg = fg;
+        }
+
+        // 2. Handle Background Change
+        if write_bg {
+            match bg {
+                // ANSI truecolor background: \x1b[48;2;R;G;Bm
+                Some(c) => write!(row_str, "\x1b[48;2;{};{};{}m", c.0, c.1, c.2).unwrap(),
+                // Reset background only: \x1b[49m
+                None => write!(row_str, "\x1b[49m").unwrap(),
+            }
+            last_bg = bg;
+        }
+
+        // 3. Write the character
+        row_str.push(character);
     }
+
+    // Reset everything at the end of the line so the terminal doesn't bleed colors
+    row_str.push_str("\x1b[0m");
     row_str
 }
 
@@ -129,11 +167,11 @@ fn process_ascii(
     char_set: &[char],
     color_mode: ColorMode,
     palette: Option<&ColorPalette<LuvColor>>,
-) -> (char, Style) {
+) -> (char, Option<RGB8>, Option<RGB8>) {
     if color_mode == ColorMode::TwoColor {
         let (lightest, darkest) = find_lightest_darkest(colors);
 
-        let (fg, bg) = palette.map_or((lightest, darkest), |p| {
+        let (fg_luv, bg_luv) = palette.map_or((lightest, darkest), |p| {
             find_closest_pair(lightest, darkest, p, true)
         });
 
@@ -147,25 +185,25 @@ fn process_ascii(
             (avg_dist / total_dist).min(1.0)
         };
         let index = brightness_to_char_index(brightness, char_set.len());
-        let character = char_set[index];
 
-        let style = Style::new()
-            .color(luv_to_owo_rgb(fg))
-            .on_color(luv_to_owo_rgb(bg));
-        (character, style)
+        (
+            char_set[index],
+            Some(luv_to_rgb(fg_luv)),
+            Some(luv_to_rgb(bg_luv)),
+        )
     } else {
-        // OneColor mode uses a single average color.
+        // OneColor mode
         let avg_color = average_color(colors);
-        let fg = palette.map_or(avg_color, |p| find_closest(avg_color, p));
+        let fg_luv = palette.map_or(avg_color, |p| find_closest(avg_color, p));
 
-        // Brightness is determined by the distance from black in L*u*v* space.
-        let brightness = 1.0 - (luv_distance(fg, BLACK_LUV) / 100.0).min(1.0);
-
+        let brightness = 1.0 - (luv_distance(fg_luv, BLACK_LUV) / 100.0).min(1.0);
         let index = brightness_to_char_index(brightness, char_set.len());
-        let character = char_set[index];
 
-        let style = Style::new().color(luv_to_owo_rgb(fg));
-        (character, style)
+        (
+            char_set[index],
+            Some(luv_to_rgb(fg_luv)),
+            None, // No background
+        )
     }
 }
 
@@ -179,19 +217,17 @@ fn process_unicode(
     charset: UnicodeCharSet,
     color_mode: ColorMode,
     palette: Option<&ColorPalette<LuvColor>>,
-) -> (char, Style) {
+) -> (char, Option<RGB8>, Option<RGB8>) {
     // Fast path for solid block characters, which don't need complex candidate testing.
     if charset == UnicodeCharSet::Full {
         let avg_color = average_color(colors);
         let final_color = palette.map_or(avg_color, |p| find_closest(avg_color, p));
-        let style = Style::new().color(luv_to_owo_rgb(final_color));
-        return ('█', style);
+        // Full block is just FG color
+        return ('█', Some(luv_to_rgb(final_color)), None);
     }
 
     // Generate candidate characters and their ideal foreground/background colors.
     let candidates = match charset {
-        // NOTE: `Full` is handled above, but included here to satisfy the match exhaustiveness
-        // check. This branch is effectively dead code.
         UnicodeCharSet::Full => vec![('█', average_color(colors), BLACK_LUV)],
         UnicodeCharSet::Half => {
             vec![(
@@ -258,12 +294,14 @@ fn process_unicode(
         .min_by(|a, b| a.0.total_cmp(&b.0))
         .map_or((' ', BLACK_LUV, BLACK_LUV), |(_, c, fg, bg)| (c, fg, bg));
 
-    let mut style = Style::new().color(luv_to_owo_rgb(best_fg));
-    if color_mode == ColorMode::TwoColor {
-        style = style.on_color(luv_to_owo_rgb(best_bg));
-    }
+    let fg = Some(luv_to_rgb(best_fg));
+    let bg = if color_mode == ColorMode::TwoColor {
+        Some(luv_to_rgb(best_bg))
+    } else {
+        None
+    };
 
-    (best_char, style)
+    (best_char, fg, bg)
 }
 
 /// Calculates the Euclidean distance between two L*u*v* colors (CIEDE76).

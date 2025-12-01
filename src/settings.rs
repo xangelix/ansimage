@@ -188,6 +188,9 @@ pub struct Advanced {
     pub resize_filter: ResizeFilter,
     /// Dithering configuration.
     pub dithering: Dithering,
+    /// If true, only emits ANSI codes when colors change.
+    /// If false, emits codes for every character (larger output).
+    pub compression: bool,
 }
 
 impl Default for Advanced {
@@ -195,6 +198,7 @@ impl Default for Advanced {
         Self {
             resize_filter: ResizeFilter::Lanczos3,
             dithering: Dithering::default(),
+            compression: true,
         }
     }
 }

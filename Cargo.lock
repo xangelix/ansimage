@@ -44,7 +44,6 @@ dependencies = [
  "fast_image_resize",
  "image",
  "imagequant",
- "owo-colors",
  "palette",
  "rayon",
  "thiserror",

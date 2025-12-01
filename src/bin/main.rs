@@ -29,6 +29,10 @@ struct Cli {
     /// Output height in characters.
     #[arg(long)]
     height: Option<usize>,
+
+    /// Uncompressed output (no ANSI color code compression).
+    #[arg(short, long)]
+    uncompressed: bool,
 }
 
 fn main() -> color_eyre::Result<()> {
@@ -53,6 +57,7 @@ fn main() -> color_eyre::Result<()> {
                 is_enabled: false,
                 ..Default::default()
             },
+            compression: !cli.uncompressed,
             ..Default::default()
         },
     };
