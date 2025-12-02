@@ -196,6 +196,26 @@ let custom_settings = Settings {
 
 ![Example Image: Popsicle Quarterblock Horrorbluedark](https://media.githubusercontent.com/media/xangelix/ansimage/main/examples/popsicle-quarterblock-horrorbluedark.png)
 
+> castle
+
+![Example Image: Castle](https://media.githubusercontent.com/media/xangelix/ansimage/main/examples/castle.jpg)
+
+> castle ascii
+
+![Example Image: Castle Ascii](https://media.githubusercontent.com/media/xangelix/ansimage/main/examples/castle-ascii.png)
+
+> castle quarterblock
+
+![Example Image: Castle Quarterblock](https://media.githubusercontent.com/media/xangelix/ansimage/main/examples/castle-quarterblock.png)
+
+> castle quarterblock sweetie16
+
+![Example Image: Castle Quarterblock Sweetie16](https://media.githubusercontent.com/media/xangelix/ansimage/main/examples/castle-quarterblock-sweetie16.png)
+
+> castle quarterblock horrorbluedark
+
+![Example Image: Castle Quarterblock Horrorbluedark](https://media.githubusercontent.com/media/xangelix/ansimage/main/examples/castle-quarterblock-horrorbluedark.png)
+
 > blackhole
 
 ![Example Image: Blackhole](https://media.githubusercontent.com/media/xangelix/ansimage/main/examples/blackhole.jpg)
