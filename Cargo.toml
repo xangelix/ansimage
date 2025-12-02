@@ -1,6 +1,6 @@
 [package]
 name = "ansimage"
-version = "0.1.5"
+version = "0.2.0"
 edition = "2024"
 description = "Converting images into colorful terminal ANSI art."
 keywords = ["image", "terminal", "ansi", "art", "ascii-art"]
